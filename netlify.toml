@@ -1,0 +1,9 @@
+ [build]
+  publish = "public"
+  functions = "netlify/functions"
+```
+
+Create your `.gitignore`:
+```
+node_modules
+.env

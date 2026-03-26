@@ -1,0 +1,2128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ubiquity Systems Digital — AI Automation Training</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #060c18;
+    --bg2: #0a1628;
+    --bg3: #0d1f3c;
+    --blue: #1a8fff;
+    --blue-dark: #0d6ecc;
+    --blue-glow: #1a8fff33;
+    --cyan: #00d4ff;
+    --steel: #4a7fa5;
+    --text: #e8f0f8;
+    --text-dim: #7a9ab5;
+    --border: #1a3558;
+    --card: #0c1a2e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* ── PAGES ── */
+  .page { display: none; min-height: 100vh; }
+  .page.active { display: block; }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    height: 70px;
+    background: rgba(6, 12, 24, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+  }
+
+  .logo-mark {
+    width: 38px;
+    height: 38px;
+    background: var(--blue);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -1px;
+  }
+
+  .logo-text {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--text);
+  }
+
+  .logo-text span { display: block; font-size: 10px; font-weight: 400; color: var(--text-dim); letter-spacing: 2px; text-transform: uppercase; }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    list-style: none;
+  }
+
+  .nav-links li a {
+    padding: 8px 16px;
+    font-size: 14px;
+    color: var(--text-dim);
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+
+  .nav-links li a:hover,
+  .nav-links li a.active {
+    color: var(--text);
+    background: var(--bg3);
+  }
+
+  .nav-cta {
+    padding: 10px 22px;
+    background: var(--blue);
+    color: #fff !important;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.2s !important;
+    cursor: pointer;
+  }
+
+  .nav-cta:hover { background: var(--blue-dark) !important; transform: translateY(-1px); box-shadow: 0 4px 20px var(--blue-glow); }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: calc(100vh - 70px);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 60px;
+    padding: 80px 80px 80px 80px;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -200px;
+    left: -200px;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(26,143,255,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -100px;
+    right: 200px;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(0,212,255,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--blue);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .hero-eyebrow::before { content: '// '; opacity: 0.5; }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(40px, 5vw, 68px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -2px;
+    margin-bottom: 24px;
+  }
+
+  h1 .accent { color: var(--blue); }
+
+  .hero-desc {
+    font-size: 17px;
+    color: var(--text-dim);
+    line-height: 1.7;
+    max-width: 520px;
+    margin-bottom: 40px;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    padding: 14px 28px;
+    background: var(--blue);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+
+  .btn-primary:hover { background: var(--blue-dark); transform: translateY(-2px); box-shadow: 0 8px 30px var(--blue-glow); }
+
+  .btn-secondary {
+    padding: 14px 28px;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+
+  .btn-secondary:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-glow); }
+
+  /* ── DASHBOARD MOCKUP ── */
+  .hero-visual {
+    position: relative;
+    z-index: 1;
+  }
+
+  .dashboard-frame {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(26,143,255,0.1);
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .db-header {
+    padding: 12px 16px;
+    background: var(--bg3);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .db-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .db-dot.red { background: #ff5f57; }
+  .db-dot.yellow { background: #febc2e; }
+  .db-dot.green { background: #28c840; }
+
+  .db-title { margin-left: 8px; font-family: 'Space Mono', monospace; font-size: 11px; color: var(--text-dim); }
+
+  .db-body { padding: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  .db-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+  }
+
+  .db-card-label { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; font-family: 'Space Mono', monospace; }
+  .db-card-value { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; color: var(--blue); }
+  .db-card-sub { font-size: 11px; color: #28c840; margin-top: 3px; }
+
+  .db-chart { grid-column: 1 / -1; background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 14px; }
+
+  .chart-bars { display: flex; align-items: flex-end; gap: 6px; height: 60px; margin-top: 10px; }
+  .bar { flex: 1; background: var(--blue); border-radius: 3px 3px 0 0; opacity: 0.7; transition: opacity 0.2s; }
+  .bar:hover { opacity: 1; }
+  .bar.highlight { background: var(--cyan); opacity: 1; }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .stat-item {
+    padding: 30px 40px;
+    border-right: 1px solid var(--border);
+    text-align: center;
+  }
+
+  .stat-item:last-child { border-right: none; }
+
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--blue);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-label { font-size: 13px; color: var(--text-dim); }
+
+  /* ── SECTION ── */
+  section { padding: 80px; position: relative; z-index: 1; }
+
+  .section-eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--blue);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(28px, 3vw, 42px);
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  .section-desc {
+    font-size: 16px;
+    color: var(--text-dim);
+    line-height: 1.7;
+    max-width: 560px;
+    margin-bottom: 48px;
+  }
+
+  /* ── CARDS ── */
+  .cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--blue), var(--cyan));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .card:hover { border-color: rgba(26,143,255,0.3); transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.3); }
+  .card:hover::before { opacity: 1; }
+
+  .card-icon {
+    width: 44px;
+    height: 44px;
+    background: var(--blue-glow);
+    border: 1px solid rgba(26,143,255,0.3);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+    font-size: 20px;
+  }
+
+  .card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .card p { font-size: 14px; color: var(--text-dim); line-height: 1.6; }
+
+  .card-tag {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 4px 10px;
+    background: var(--blue-glow);
+    border: 1px solid rgba(26,143,255,0.2);
+    border-radius: 4px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--blue);
+  }
+
+  /* ── SERVICES PAGE ── */
+  .services-hero {
+    padding: 80px;
+    background: linear-gradient(180deg, var(--bg2) 0%, var(--bg) 100%);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .services-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; padding: 0 80px 80px; }
+
+  .service-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 36px;
+    transition: all 0.3s;
+    position: relative;
+  }
+
+  .service-card:hover { border-color: rgba(26,143,255,0.4); box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
+
+  .service-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--blue);
+    letter-spacing: 2px;
+    margin-bottom: 14px;
+  }
+
+  .service-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 12px;
+  }
+
+  .service-card p { font-size: 15px; color: var(--text-dim); line-height: 1.7; margin-bottom: 20px; }
+
+  .feature-list { list-style: none; }
+  .feature-list li {
+    padding: 8px 0;
+    font-size: 14px;
+    color: var(--text-dim);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .feature-list li::before { content: '→'; color: var(--blue); font-family: monospace; }
+  .feature-list li:last-child { border-bottom: none; }
+
+  /* ── SUBSCRIPTION PAGE ── */
+  .sub-hero {
+    padding: 80px;
+    text-align: center;
+    background: linear-gradient(180deg, var(--bg2) 0%, var(--bg) 100%);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sub-hero h1 { text-align: center; }
+  .sub-hero .section-desc { margin: 0 auto 0; text-align: center; }
+
+  .plans-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    padding: 60px 80px 80px;
+    align-items: start;
+  }
+
+  .plan {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 36px;
+    position: relative;
+    transition: all 0.3s;
+  }
+
+  .plan.featured {
+    border-color: var(--blue);
+    background: linear-gradient(135deg, rgba(26,143,255,0.08) 0%, var(--card) 100%);
+    box-shadow: 0 0 40px rgba(26,143,255,0.15);
+  }
+
+  .plan-badge {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 4px 16px;
+    background: var(--blue);
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .plan-name {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .plan-price {
+    font-family: 'Syne', sans-serif;
+    font-size: 48px;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .plan-price span { font-size: 18px; color: var(--text-dim); font-weight: 400; }
+  .plan-period { font-size: 13px; color: var(--text-dim); margin-bottom: 28px; }
+
+  .plan-features { list-style: none; margin-bottom: 30px; }
+  .plan-features li {
+    padding: 9px 0;
+    font-size: 14px;
+    color: var(--text-dim);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .plan-features li .check { color: #28c840; font-size: 12px; }
+  .plan-features li .cross { color: #555; font-size: 12px; }
+  .plan-features li:last-child { border-bottom: none; }
+
+  .btn-plan {
+    width: 100%;
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+  }
+
+  .btn-plan.primary { background: var(--blue); color: #fff; }
+  .btn-plan.primary:hover { background: var(--blue-dark); box-shadow: 0 6px 24px var(--blue-glow); }
+  .btn-plan.outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+  .btn-plan.outline:hover { border-color: var(--blue); color: var(--blue); }
+
+  /* ── STRIPE NOTICE ── */
+  .stripe-notice {
+    margin: 0 80px 60px;
+    padding: 20px 28px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+
+  .stripe-badge {
+    padding: 6px 14px;
+    background: #635bff22;
+    border: 1px solid #635bff44;
+    border-radius: 6px;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    color: #635bff;
+    white-space: nowrap;
+  }
+
+  /* ── ABOUT PAGE ── */
+  .about-hero {
+    padding: 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .about-visual {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 40px;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 2;
+  }
+
+  .code-line { display: flex; gap: 16px; }
+  .code-num { color: var(--border); user-select: none; min-width: 20px; text-align: right; }
+  .code-kw { color: #c084fc; }
+  .code-str { color: #86efac; }
+  .code-fn { color: var(--blue); }
+  .code-comment { color: #475569; font-style: italic; }
+
+  .mission-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    margin-bottom: 20px;
+  }
+
+  .mission-card h3 { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+  .mission-card p { font-size: 14px; color: var(--text-dim); line-height: 1.7; }
+
+  .about-values { padding: 60px 80px 80px; }
+  .values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 40px; }
+
+  .value-card {
+    padding: 28px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    text-align: center;
+  }
+
+  .value-icon { font-size: 32px; margin-bottom: 14px; }
+  .value-card h3 { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+  .value-card p { font-size: 13px; color: var(--text-dim); line-height: 1.6; }
+
+  /* ── CTA SECTION ── */
+  .cta-section {
+    margin: 0 80px 80px;
+    padding: 60px;
+    background: linear-gradient(135deg, var(--bg3) 0%, rgba(26,143,255,0.08) 100%);
+    border: 1px solid rgba(26,143,255,0.2);
+    border-radius: 16px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(26,143,255,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .cta-section h2 { margin-bottom: 14px; position: relative; z-index: 1; }
+  .cta-section p { color: var(--text-dim); margin-bottom: 30px; position: relative; z-index: 1; }
+  .cta-section .btn-primary { position: relative; z-index: 1; font-size: 16px; padding: 16px 36px; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 40px 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+
+  footer a { color: var(--text-dim); text-decoration: none; }
+  footer a:hover { color: var(--blue); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-in { animation: fadeInUp 0.6s ease both; }
+  .fade-in-1 { animation-delay: 0.1s; }
+  .fade-in-2 { animation-delay: 0.2s; }
+  .fade-in-3 { animation-delay: 0.3s; }
+  .fade-in-4 { animation-delay: 0.4s; }
+
+  /* ── TICKER ── */
+  .ticker {
+    background: var(--blue);
+    padding: 10px 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .ticker-inner {
+    display: inline-block;
+    animation: ticker 30s linear infinite;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+  }
+
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ── TECH PILLS ── */
+  .tech-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+  .tech-pill {
+    padding: 6px 14px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(6,12,24,0.9);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 40px;
+    max-width: 480px;
+    width: 90%;
+    position: relative;
+    animation: fadeInUp 0.3s ease;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    font-size: 22px;
+    cursor: pointer;
+  }
+
+  .modal h3 { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+  .modal p { font-size: 14px; color: var(--text-dim); margin-bottom: 24px; }
+
+  .modal-plan-label {
+    padding: 12px 16px;
+    background: var(--blue-glow);
+    border: 1px solid rgba(26,143,255,0.3);
+    border-radius: 8px;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--blue);
+    margin-bottom: 20px;
+  }
+
+  .form-group { margin-bottom: 16px; }
+  .form-group label { display: block; font-size: 13px; color: var(--text-dim); margin-bottom: 6px; }
+
+  .form-group input {
+    width: 100%;
+    padding: 12px 16px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .form-group input:focus { border-color: var(--blue); }
+
+  .stripe-powered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-top: 16px;
+  }
+
+  .stripe-powered span { color: #635bff; font-weight: 600; }
+
+  /* ── STORE PAGE ── */
+  .store-hero {
+    padding: 70px 80px 50px;
+    background: linear-gradient(180deg, var(--bg2) 0%, var(--bg) 100%);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .store-filters {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    padding: 8px 18px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 1px;
+  }
+
+  .filter-btn:hover, .filter-btn.active {
+    border-color: var(--blue);
+    color: var(--blue);
+    background: var(--blue-glow);
+  }
+
+  .store-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    padding: 50px 80px;
+  }
+
+  .product-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .product-card:hover {
+    border-color: rgba(26,143,255,0.35);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+  }
+
+  .product-thumb {
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 52px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .product-thumb::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 40%, var(--card) 100%);
+  }
+
+  .product-thumb.blue-grad { background: linear-gradient(135deg, #0d2244, #1a3a6b); }
+  .product-thumb.teal-grad { background: linear-gradient(135deg, #062a2e, #0d4a50); }
+  .product-thumb.purple-grad { background: linear-gradient(135deg, #1a0a2e, #3b1a6b); }
+  .product-thumb.green-grad { background: linear-gradient(135deg, #062610, #0d4a20); }
+  .product-thumb.orange-grad { background: linear-gradient(135deg, #2a1200, #5a2800); }
+  .product-thumb.steel-grad { background: linear-gradient(135deg, #0d1f38, #1a3558); }
+
+  .product-body { padding: 22px; flex: 1; display: flex; flex-direction: column; }
+
+  .product-type {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--blue);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .product-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 9px;
+    line-height: 1.3;
+  }
+
+  .product-card p {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.6;
+    flex: 1;
+    margin-bottom: 18px;
+  }
+
+  .product-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+
+  .product-price {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text);
+  }
+
+  .product-price .cents { font-size: 14px; color: var(--text-dim); font-weight: 400; }
+  .product-price.free-tag { color: #28c840; font-size: 18px; }
+
+  .btn-add-cart {
+    padding: 9px 18px;
+    background: var(--blue);
+    color: #fff;
+    border: none;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .btn-add-cart:hover { background: var(--blue-dark); box-shadow: 0 4px 18px var(--blue-glow); }
+  .btn-add-cart.in-cart { background: #28c840; }
+  .btn-add-cart.in-cart:hover { background: #1ea832; }
+
+  /* ── CART DRAWER ── */
+  .cart-drawer {
+    position: fixed;
+    top: 70px;
+    right: -420px;
+    width: 400px;
+    height: calc(100vh - 70px);
+    background: var(--bg2);
+    border-left: 1px solid var(--border);
+    z-index: 200;
+    transition: right 0.3s cubic-bezier(0.4,0,0.2,1);
+    display: flex;
+    flex-direction: column;
+    box-shadow: -20px 0 60px rgba(0,0,0,0.5);
+  }
+
+  .cart-drawer.open { right: 0; }
+
+  .cart-header {
+    padding: 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .cart-header h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+  }
+
+  .cart-close {
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    font-size: 22px;
+    cursor: pointer;
+  }
+
+  .cart-items { flex: 1; overflow-y: auto; padding: 16px; }
+
+  .cart-item {
+    display: flex;
+    gap: 14px;
+    padding: 14px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 10px;
+    align-items: flex-start;
+  }
+
+  .cart-item-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .cart-item-info { flex: 1; }
+  .cart-item-name { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+  .cart-item-type { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--blue); letter-spacing: 1px; }
+  .cart-item-price { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; color: var(--text); margin-top: 6px; }
+
+  .cart-item-remove {
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    cursor: pointer;
+    font-size: 16px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: all 0.2s;
+  }
+
+  .cart-item-remove:hover { color: #ff4757; background: rgba(255,71,87,0.1); }
+
+  .cart-empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-dim);
+  }
+
+  .cart-empty .empty-icon { font-size: 48px; margin-bottom: 14px; }
+  .cart-empty p { font-size: 14px; }
+
+  .cart-footer {
+    padding: 20px 24px;
+    border-top: 1px solid var(--border);
+  }
+
+  .cart-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+
+  .cart-total-label { font-size: 14px; color: var(--text-dim); }
+  .cart-total-value { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; color: var(--text); }
+
+  .btn-checkout {
+    width: 100%;
+    padding: 15px;
+    background: var(--blue);
+    color: #fff;
+    border: none;
+    border-radius: 9px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .btn-checkout:hover { background: var(--blue-dark); box-shadow: 0 6px 24px var(--blue-glow); }
+  .btn-checkout:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  /* ── STORE PURCHASE MODAL ── */
+  .purchase-modal {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 40px;
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+    animation: fadeInUp 0.3s ease;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .order-summary {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 22px;
+  }
+
+  .order-summary-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .order-line {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    padding: 5px 0;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-dim);
+  }
+
+  .order-line:last-child { border-bottom: none; font-weight: 600; color: var(--text); font-size: 15px; padding-top: 10px; }
+
+  .cart-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 190;
+  }
+
+  .cart-overlay.open { display: block; }
+
+  @media (max-width: 900px) {
+    .store-grid { grid-template-columns: 1fr; padding: 30px 40px; }
+    .store-hero { padding: 40px; }
+    .cart-drawer { width: 100%; right: -100%; top: 70px; height: calc(100vh - 70px); }
+    .hero-visual { display: none; }
+    section, .services-hero, .sub-hero, .about-hero, .about-values { padding: 40px; }
+    .services-grid, .plans-grid { grid-template-columns: 1fr; padding: 0 40px 60px; }
+    .cards-grid, .values-grid { grid-template-columns: 1fr; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); }
+    .cta-section, .stripe-notice, footer { margin: 0 40px 40px; padding: 40px 24px; }
+    nav { padding: 0 20px; }
+    footer { flex-direction: column; gap: 16px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-logo" onclick="showPage('home')">
+    <div class="logo-mark">US</div>
+    <div class="logo-text">
+      Ubiquity Systems
+      <span>Digital</span>
+    </div>
+  </div>
+  <ul class="nav-links">
+    <li><a onclick="showPage('home')" id="nav-home" class="active">Home</a></li>
+    <li><a onclick="showPage('services')" id="nav-services">Services</a></li>
+    <li><a onclick="showPage('store')" id="nav-store">Store</a></li>
+    <li><a onclick="showPage('subscriptions')" id="nav-subscriptions">Subscriptions</a></li>
+    <li><a onclick="showPage('about')" id="nav-about">About</a></li>
+    <li><a onclick="showPage('store')" class="nav-cta" style="position:relative">
+      Shop <span id="cart-badge" style="display:none;position:absolute;top:-6px;right:-6px;background:#ff4757;color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;font-weight:700;line-height:18px;text-align:center">0</span>
+    </a></li>
+  </ul>
+</nav>
+
+<!-- ═══════════════════════ HOME PAGE ═══════════════════════ -->
+<div id="page-home" class="page active">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow fade-in fade-in-1">BUILD REAL SAAS PRODUCTS</div>
+      <h1 class="fade-in fade-in-2">
+        Learn AI Automation<br>
+        by <span class="accent">Building Software</span>
+      </h1>
+      <p class="hero-desc fade-in fade-in-3">
+        Master practical web development and AI automation. Ship production-ready SaaS applications using Claude, Cursor, Supabase, and React — guided by structured training built for serious builders.
+      </p>
+      <div class="hero-actions fade-in fade-in-4">
+        <a class="btn-primary" onclick="showPage('subscriptions')">Explore Programs</a>
+        <a class="btn-secondary" onclick="showPage('services')">Learn More</a>
+      </div>
+    </div>
+
+    <div class="hero-visual fade-in fade-in-3">
+      <div class="dashboard-frame">
+        <div class="db-header">
+          <div class="db-dot red"></div>
+          <div class="db-dot yellow"></div>
+          <div class="db-dot green"></div>
+          <div class="db-title">ubiquity-agent · dashboard.jsx</div>
+        </div>
+        <div class="db-body">
+          <div class="db-card">
+            <div class="db-card-label">Active Learners</div>
+            <div class="db-card-value">1,240</div>
+            <div class="db-card-sub">↑ +18% this month</div>
+          </div>
+          <div class="db-card">
+            <div class="db-card-label">Modules Shipped</div>
+            <div class="db-card-value">47</div>
+            <div class="db-card-sub">↑ 3 new this week</div>
+          </div>
+          <div class="db-chart">
+            <div class="db-card-label">Completion Rate</div>
+            <div class="chart-bars">
+              <div class="bar" style="height:30%"></div>
+              <div class="bar" style="height:50%"></div>
+              <div class="bar" style="height:40%"></div>
+              <div class="bar" style="height:70%"></div>
+              <div class="bar" style="height:60%"></div>
+              <div class="bar" style="height:85%"></div>
+              <div class="bar highlight" style="height:95%"></div>
+              <div class="bar" style="height:75%"></div>
+              <div class="bar" style="height:88%"></div>
+              <div class="bar highlight" style="height:100%"></div>
+            </div>
+          </div>
+          <div class="db-card" style="grid-column:1/-1">
+            <div class="db-card-label">Stack</div>
+            <div style="display:flex;gap:8px;margin-top:6px;flex-wrap:wrap">
+              <span class="tech-pill">Claude API</span>
+              <span class="tech-pill">React</span>
+              <span class="tech-pill">Supabase</span>
+              <span class="tech-pill">Cursor</span>
+              <span class="tech-pill">MCP</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TICKER -->
+  <div class="ticker">
+    <div class="ticker-inner">
+      &nbsp;&nbsp;AI AUTOMATION &nbsp;·&nbsp; SAAS DEVELOPMENT &nbsp;·&nbsp; AGENTIC SYSTEMS &nbsp;·&nbsp; CLAUDE API &nbsp;·&nbsp; MCP PROTOCOL &nbsp;·&nbsp; RAG PIPELINES &nbsp;·&nbsp; CURSOR IDE &nbsp;·&nbsp; SUPABASE &nbsp;·&nbsp; REACT &nbsp;·&nbsp; PRODUCTION-READY CODE &nbsp;&nbsp;&nbsp;&nbsp;
+      AI AUTOMATION &nbsp;·&nbsp; SAAS DEVELOPMENT &nbsp;·&nbsp; AGENTIC SYSTEMS &nbsp;·&nbsp; CLAUDE API &nbsp;·&nbsp; MCP PROTOCOL &nbsp;·&nbsp; RAG PIPELINES &nbsp;·&nbsp; CURSOR IDE &nbsp;·&nbsp; SUPABASE &nbsp;·&nbsp; REACT &nbsp;·&nbsp; PRODUCTION-READY CODE &nbsp;&nbsp;&nbsp;&nbsp;
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-bar">
+    <div class="stat-item">
+      <div class="stat-num">47+</div>
+      <div class="stat-label">Training Modules</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">1.2k</div>
+      <div class="stat-label">Active Students</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">6</div>
+      <div class="stat-label">Core Curricula</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Hands-On Projects</div>
+    </div>
+  </div>
+
+  <!-- WHAT WE OFFER -->
+  <section>
+    <div class="section-eyebrow">// What We Offer</div>
+    <h2>Everything You Need to<br>Build with AI</h2>
+    <p class="section-desc">Structured, no-fluff training designed for developers who want to go from zero to shipping real AI-powered products — fast.</p>
+
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon">🤖</div>
+        <h3>AI Agent Development</h3>
+        <p>Learn to build ReAct agents, multi-agent systems, and autonomous workflows using the Anthropic API and LangChain.</p>
+        <span class="card-tag">AGENTS · LLM · TOOLUSE</span>
+      </div>
+      <div class="card">
+        <div class="card-icon">🗄️</div>
+        <h3>RAG & Knowledge Systems</h3>
+        <p>Connect your AI to proprietary data using vector databases, embedding pipelines, and semantic search patterns.</p>
+        <span class="card-tag">RAG · PINECONE · PGVECTOR</span>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔌</div>
+        <h3>MCP Integration</h3>
+        <p>Build and deploy Model Context Protocol servers. The fastest-growing AI infrastructure standard of 2025.</p>
+        <span class="card-tag">MCP · CURSOR · CLAUDE</span>
+      </div>
+      <div class="card">
+        <div class="card-icon">⚡</div>
+        <h3>SaaS Product Templates</h3>
+        <p>Production-ready starter kits for React + Supabase + Stripe. Launch your first AI-powered product in days.</p>
+        <span class="card-tag">REACT · SUPABASE · STRIPE</span>
+      </div>
+      <div class="card">
+        <div class="card-icon">📦</div>
+        <h3>Digital Asset Library</h3>
+        <p>Downloadable PDF guides, prompt templates, architecture diagrams, and reference sheets updated monthly.</p>
+        <span class="card-tag">PDF · TEMPLATES · GUIDES</span>
+      </div>
+      <div class="card">
+        <div class="card-icon">📡</div>
+        <h3>Community & Live Sessions</h3>
+        <p>Join a focused community of builders. Access live walkthroughs, code reviews, and Q&A sessions each month.</p>
+        <span class="card-tag">COMMUNITY · LIVE · SUPPORT</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <h2>Ready to Build Your First AI Product?</h2>
+    <p>Join Ubiquity Systems Digital and ship production-ready software powered by the latest AI stack.</p>
+    <a class="btn-primary" onclick="showPage('subscriptions')">Choose Your Plan →</a>
+  </div>
+
+  <footer>
+    <div>© 2026 Ubiquity Systems Digital. All rights reserved.</div>
+    <div style="display:flex;gap:24px">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Contact</a>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════ SERVICES PAGE ═══════════════════════ -->
+<div id="page-services" class="page">
+
+  <div class="services-hero">
+    <div class="section-eyebrow">// Services</div>
+    <h1>Training Designed for<br><span class="accent">Serious Builders</span></h1>
+    <p class="section-desc">Not tutorials. Not YouTube clips. Real structured curricula that take you from fundamentals to shipping production AI applications.</p>
+  </div>
+
+  <div style="padding: 60px 80px 20px">
+    <div class="section-eyebrow">// Core Curricula</div>
+    <h2>What You'll Build</h2>
+  </div>
+
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-num">01 — FOUNDATIONS</div>
+      <h3>AI Development Bootcamp</h3>
+      <p>A complete beginner-to-builder curriculum. Learn prompt engineering, the Anthropic API, and deploy your first working AI application step by step.</p>
+      <ul class="feature-list">
+        <li>Prompt engineering fundamentals</li>
+        <li>Claude API integration from scratch</li>
+        <li>Building your first AI-powered UI</li>
+        <li>Deploying to production with Vercel</li>
+        <li>Project: Personal AI assistant app</li>
+      </ul>
+    </div>
+
+    <div class="service-card">
+      <div class="service-num">02 — AGENTS</div>
+      <h3>Agentic Systems Engineering</h3>
+      <p>Go deep on ReAct patterns, multi-agent orchestration, tool use, and memory systems. Build agents that actually complete complex, multi-step tasks.</p>
+      <ul class="feature-list">
+        <li>ReAct loop implementation</li>
+        <li>Tool use and function calling</li>
+        <li>Memory: context, vector, and KV</li>
+        <li>Multi-agent orchestration patterns</li>
+        <li>Project: Autonomous research agent</li>
+      </ul>
+    </div>
+
+    <div class="service-card">
+      <div class="service-num">03 — DATA</div>
+      <h3>RAG Pipeline Mastery</h3>
+      <p>Build knowledge-grounded AI systems. From chunking strategies to vector databases, learn the full RAG pipeline with real production datasets.</p>
+      <ul class="feature-list">
+        <li>Embedding models and chunking</li>
+        <li>Pinecone and pgvector integration</li>
+        <li>Advanced retrieval strategies</li>
+        <li>RAG evaluation with RAGAs</li>
+        <li>Project: Company knowledge base chatbot</li>
+      </ul>
+    </div>
+
+    <div class="service-card">
+      <div class="service-num">04 — PRODUCTS</div>
+      <h3>SaaS Product Accelerator</h3>
+      <p>Ship a full AI SaaS product from scratch. React frontend, Supabase backend, Stripe payments, and Claude-powered features — all in one structured sprint.</p>
+      <ul class="feature-list">
+        <li>React + Supabase project setup</li>
+        <li>Auth, subscriptions, and billing with Stripe</li>
+        <li>AI feature integration patterns</li>
+        <li>Deployment, monitoring, and scaling</li>
+        <li>Project: Your own AI SaaS MVP</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- DIGITAL ASSETS SECTION -->
+  <section>
+    <div class="section-eyebrow">// Digital Assets</div>
+    <h2>Download. Apply. Build.</h2>
+    <p class="section-desc">Every subscription includes access to our growing library of production-ready digital assets.</p>
+
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon">📄</div>
+        <h3>Architecture Reference PDFs</h3>
+        <p>Visual system diagrams for agent workflows, RAG pipelines, MCP integrations, and SaaS product architecture.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">💬</div>
+        <h3>Prompt Template Library</h3>
+        <p>Tested, production-grade system prompts for coding assistants, data extractors, customer support agents, and more.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🧱</div>
+        <h3>Code Starter Kits</h3>
+        <p>Boilerplate repositories for React + Supabase, LangChain agents, and MCP server templates ready to clone and deploy.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta-section">
+    <h2>Start Learning Today</h2>
+    <p>Pick a plan and get instant access to all curricula, assets, and the community.</p>
+    <a class="btn-primary" onclick="showPage('subscriptions')">View Plans →</a>
+  </div>
+
+  <footer>
+    <div>© 2026 Ubiquity Systems Digital. All rights reserved.</div>
+    <div style="display:flex;gap:24px">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════ SUBSCRIPTIONS PAGE ═══════════════════════ -->
+<div id="page-subscriptions" class="page">
+
+  <div class="sub-hero">
+    <div class="section-eyebrow" style="text-align:center">// Subscriptions</div>
+    <h1>Simple, Transparent Pricing</h1>
+    <p class="section-desc" style="margin-top:14px">One subscription unlocks everything. Choose the commitment level that works for you.</p>
+  </div>
+
+  <div class="plans-grid">
+
+    <!-- STARTER -->
+    <div class="plan">
+      <div class="plan-name">Starter</div>
+      <div class="plan-price">$19<span>/mo</span></div>
+      <div class="plan-period">Billed monthly · Cancel anytime</div>
+      <ul class="plan-features">
+        <li><span class="check">✓</span> AI Foundations Curriculum</li>
+        <li><span class="check">✓</span> 10 PDF Reference Guides</li>
+        <li><span class="check">✓</span> Prompt Template Starter Pack</li>
+        <li><span class="check">✓</span> Community Forum Access</li>
+        <li><span class="cross">✗</span> Agent & RAG Curricula</li>
+        <li><span class="cross">✗</span> Live Sessions</li>
+        <li><span class="cross">✗</span> Code Starter Kits</li>
+      </ul>
+      <button class="btn-plan outline" onclick="openModal('Starter', '$19/mo')">Get Started</button>
+    </div>
+
+    <!-- PRO -->
+    <div class="plan featured">
+      <div class="plan-badge">Most Popular</div>
+      <div class="plan-name">Pro Builder</div>
+      <div class="plan-price">$49<span>/mo</span></div>
+      <div class="plan-period">Billed monthly · Cancel anytime</div>
+      <ul class="plan-features">
+        <li><span class="check">✓</span> All 4 Core Curricula</li>
+        <li><span class="check">✓</span> Full Digital Asset Library</li>
+        <li><span class="check">✓</span> All Prompt Templates</li>
+        <li><span class="check">✓</span> All Code Starter Kits</li>
+        <li><span class="check">✓</span> Monthly Live Sessions</li>
+        <li><span class="check">✓</span> Community + Code Reviews</li>
+        <li><span class="cross">✗</span> 1-on-1 Mentorship</li>
+      </ul>
+      <button class="btn-plan primary" onclick="openModal('Pro Builder', '$49/mo')">Start Building</button>
+    </div>
+
+    <!-- ELITE -->
+    <div class="plan">
+      <div class="plan-name">Elite</div>
+      <div class="plan-price">$99<span>/mo</span></div>
+      <div class="plan-period">Billed monthly · Cancel anytime</div>
+      <ul class="plan-features">
+        <li><span class="check">✓</span> Everything in Pro Builder</li>
+        <li><span class="check">✓</span> Monthly 1-on-1 Mentorship</li>
+        <li><span class="check">✓</span> Priority Support (48hr)</li>
+        <li><span class="check">✓</span> Early Access to New Modules</li>
+        <li><span class="check">✓</span> Custom Project Feedback</li>
+        <li><span class="check">✓</span> Private Community Channel</li>
+        <li><span class="check">✓</span> Annual discount available</li>
+      </ul>
+      <button class="btn-plan outline" onclick="openModal('Elite', '$99/mo')">Go Elite</button>
+    </div>
+  </div>
+
+  <!-- STRIPE NOTICE -->
+  <div class="stripe-notice">
+    <div class="stripe-badge">Stripe</div>
+    <div>
+      Payments are processed securely through <strong style="color:var(--text)">Stripe</strong>. All major cards accepted. Subscriptions managed through your billing portal — upgrade, downgrade, or cancel anytime. Digital assets delivered instantly upon payment confirmation.
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <section style="padding: 0 80px 80px">
+    <div class="section-eyebrow">// FAQ</div>
+    <h2>Common Questions</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:36px">
+      <div class="mission-card">
+        <h3>Can I cancel anytime?</h3>
+        <p>Yes. All plans are month-to-month with no lock-in. Cancel from your billing portal and access continues through the end of your billing cycle.</p>
+      </div>
+      <div class="mission-card">
+        <h3>Do I keep assets after canceling?</h3>
+        <p>Any PDFs and templates you download before canceling are yours to keep. Access to the member portal and future updates requires an active subscription.</p>
+      </div>
+      <div class="mission-card">
+        <h3>How are new modules released?</h3>
+        <p>New training modules and digital assets drop monthly. Elite members get early access 1 week before general availability.</p>
+      </div>
+      <div class="mission-card">
+        <h3>Is this right for complete beginners?</h3>
+        <p>Yes. The Foundations curriculum starts from zero. You need basic computer literacy but no prior coding experience is required to start.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div>© 2026 Ubiquity Systems Digital. All rights reserved.</div>
+    <div style="display:flex;gap:24px">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════ ABOUT PAGE ═══════════════════════ -->
+<div id="page-about" class="page">
+
+  <div class="about-hero">
+    <div>
+      <div class="section-eyebrow">// About</div>
+      <h1>Built for the<br><span class="accent">New Era of Software</span></h1>
+      <p style="font-size:16px;color:var(--text-dim);line-height:1.7;margin-bottom:28px">
+        Ubiquity Systems Digital exists because the AI revolution is happening right now — and most training is too slow, too shallow, and not built for people who actually want to ship things.
+      </p>
+      <p style="font-size:16px;color:var(--text-dim);line-height:1.7">
+        We build structured, hands-on programs for developers at the start of their AI journey who are serious about learning. No filler content. No recorded lectures from 2022. Just real curricula, real tools, and real projects.
+      </p>
+    </div>
+
+    <div class="about-visual">
+      <div class="code-line"><span class="code-num">1</span><span class="code-comment">// ubiquity-systems/mission.ts</span></div>
+      <div class="code-line"><span class="code-num">2</span></div>
+      <div class="code-line"><span class="code-num">3</span><span class="code-kw">const</span>&nbsp;<span class="code-fn">mission</span>&nbsp;= {</div>
+      <div class="code-line"><span class="code-num">4</span>&nbsp;&nbsp;focus:&nbsp;<span class="code-str">"AI automation training"</span>,</div>
+      <div class="code-line"><span class="code-num">5</span>&nbsp;&nbsp;audience:&nbsp;<span class="code-str">"serious early-stage devs"</span>,</div>
+      <div class="code-line"><span class="code-num">6</span>&nbsp;&nbsp;method:&nbsp;<span class="code-str">"build real things"</span>,</div>
+      <div class="code-line"><span class="code-num">7</span>&nbsp;&nbsp;stack:&nbsp;[</div>
+      <div class="code-line"><span class="code-num">8</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-str">"Claude API"</span>,&nbsp;<span class="code-str">"React"</span>,</div>
+      <div class="code-line"><span class="code-num">9</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-str">"Supabase"</span>,&nbsp;<span class="code-str">"Cursor"</span>,</div>
+      <div class="code-line"><span class="code-num">10</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-str">"MCP"</span>,&nbsp;<span class="code-str">"LangChain"</span></div>
+      <div class="code-line"><span class="code-num">11</span>&nbsp;&nbsp;],</div>
+      <div class="code-line"><span class="code-num">12</span>&nbsp;&nbsp;promise:&nbsp;<span class="code-str">"ship production AI apps"</span></div>
+      <div class="code-line"><span class="code-num">13</span>};</div>
+      <div class="code-line"><span class="code-num">14</span></div>
+      <div class="code-line"><span class="code-num">15</span><span class="code-kw">export default</span>&nbsp;<span class="code-fn">mission</span>;</div>
+    </div>
+  </div>
+
+  <div class="about-values">
+    <div class="section-eyebrow">// Our Principles</div>
+    <h2>How We Think About Training</h2>
+    <div class="values-grid">
+      <div class="value-card">
+        <div class="value-icon">🎯</div>
+        <h3>Precision Over Volume</h3>
+        <p>Every module earns its place. We cut the noise and focus on what actually gets you building faster.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">🔨</div>
+        <h3>Hands-On, Always</h3>
+        <p>Every concept is tied to a real project. Theory is only taught when it explains something you're about to build.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">📡</div>
+        <h3>Constantly Updated</h3>
+        <p>The AI ecosystem moves fast. Our content ships monthly to stay ahead of the curve — not behind it.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">🤝</div>
+        <h3>Community-Driven</h3>
+        <p>Learn alongside other builders. Share projects, get feedback, and grow in a focused peer network.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">🏗️</div>
+        <h3>Production Standards</h3>
+        <p>We teach the way production teams actually work — with real architecture patterns, not toy examples.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">⚖️</div>
+        <h3>Accessible to Serious Learners</h3>
+        <p>No gatekeeping, no jargon spirals. If you're committed to learning, we're committed to teaching clearly.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- GUIDE HIGHLIGHT -->
+  <section style="padding: 0 80px 80px">
+    <div class="section-eyebrow">// Reference Material</div>
+    <h2>The Ubiquity AI Ecosystem Guide</h2>
+    <p class="section-desc">A comprehensive 22-page reference covering Agents, Foundation Models, Skills, RAG Pipelines, MCP, and Automation Tools — included with every subscription.</p>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon">🤖</div>
+        <h3>Agents & Frameworks</h3>
+        <p>ReAct patterns, LangChain, CrewAI, multi-agent systems, memory architectures, and guardrail implementation.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🧠</div>
+        <h3>Foundation Models</h3>
+        <p>Model comparison across Anthropic, OpenAI, Google, and Meta. Selection criteria, fine-tuning vs prompting, and evaluation metrics.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔌</div>
+        <h3>MCP & Automation</h3>
+        <p>Complete MCP architecture guide, TypeScript server examples, n8n integration patterns, and the 2026 automation stack.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta-section">
+    <h2>Join the Community</h2>
+    <p>Get access to training, assets, and a network of developers building with the new AI stack.</p>
+    <a class="btn-primary" onclick="showPage('subscriptions')">View Subscription Plans →</a>
+  </div>
+
+  <footer>
+    <div>© 2026 Ubiquity Systems Digital. All rights reserved.</div>
+    <div style="display:flex;gap:24px">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════ STORE PAGE ═══════════════════════ -->
+<div id="page-store" class="page">
+
+  <div class="store-hero">
+    <div>
+      <div class="section-eyebrow">// Digital Store</div>
+      <h1>Tools, Templates &<br><span class="accent">Training Assets</span></h1>
+      <p style="font-size:16px;color:var(--text-dim);line-height:1.7;max-width:500px;margin-top:12px">
+        One-time purchases. Instant downloads. Everything built for developers who want to move fast with AI.
+      </p>
+    </div>
+    <div>
+      <div class="store-filters">
+        <button class="filter-btn active" onclick="filterStore('all', this)">All Products</button>
+        <button class="filter-btn" onclick="filterStore('pdf', this)">PDF Guides</button>
+        <button class="filter-btn" onclick="filterStore('template', this)">Templates</button>
+        <button class="filter-btn" onclick="filterStore('kit', this)">Starter Kits</button>
+        <button class="filter-btn" onclick="filterStore('bundle', this)">Bundles</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="store-grid" id="store-grid">
+
+    <div class="product-card" data-category="pdf" data-id="1" data-name="AI Agent Architecture Guide" data-price="1900" data-icon="🤖" data-type="PDF GUIDE">
+      <div class="product-thumb blue-grad">🤖</div>
+      <div class="product-body">
+        <div class="product-type">PDF Guide · 28 Pages</div>
+        <h3>AI Agent Architecture Guide</h3>
+        <p>Complete visual reference for ReAct loops, multi-agent patterns, memory systems, and guardrail implementation. Print-ready, annotated diagrams.</p>
+        <div class="product-footer">
+          <div class="product-price">$19<span class="cents"></span></div>
+          <button class="btn-add-cart" onclick="addToCart(1, 'AI Agent Architecture Guide', 1900, '🤖', 'PDF GUIDE')">+ Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" data-category="template" data-id="2" data-name="Prompt Template Library v2" data-price="2900" data-icon="💬" data-type="TEMPLATE PACK">
+      <div class="product-thumb teal-grad">💬</div>
+      <div class="product-body">
+        <div class="product-type">Template Pack · 60+ Prompts</div>
+        <h3>Prompt Template Library v2</h3>
+        <p>Production-tested system prompts for coding assistants, data extractors, support agents, summarizers, and RAG query reformulators.</p>
+        <div class="product-footer">
+          <div class="product-price">$29<span class="cents"></span></div>
+          <button class="btn-add-cart" onclick="addToCart(2, 'Prompt Template Library v2', 2900, '💬', 'TEMPLATE PACK')">+ Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" data-category="kit" data-id="3" data-name="React + Supabase SaaS Starter Kit" data-price="4900" data-icon="🧱" data-type="STARTER KIT">
+      <div class="product-thumb purple-grad">🧱</div>
+      <div class="product-body">
+        <div class="product-type">Starter Kit · Full Repo</div>
+        <h3>React + Supabase SaaS Starter Kit</h3>
+        <p>Auth, billing, protected routes, and Stripe subscriptions pre-wired. Clone, configure your keys, and ship your first SaaS in a weekend.</p>
+        <div class="product-footer">
+          <div class="product-price">$49<span class="cents"></span></div>
+          <button class="btn-add-cart" onclick="addToCart(3, 'React + Supabase SaaS Starter Kit', 4900, '🧱', 'STARTER KIT')">+ Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" data-category="pdf" data-id="4" data-name="RAG Pipeline Reference Sheet" data-price="900" data-icon="🗄️" data-type="PDF GUIDE">
+      <div class="product-thumb green-grad">🗄️</div>
+      <div class="product-body">
+        <div class="product-type">PDF Guide · 12 Pages</div>
+        <h3>RAG Pipeline Reference Sheet</h3>
+        <p>Chunking strategies, vector DB comparison, embedding model selection, and advanced retrieval patterns. One-page cheat sheet included.</p>
+        <div class="product-footer">
+          <div class="product-price">$9<span class="cents"></span></div>
+          <button class="btn-add-cart" onclick="addToCart(4, 'RAG Pipeline Reference Sheet', 900, '🗄️', 'PDF GUIDE')">+ Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" data-category="kit" data-id="5" data-name="MCP Server Template (TypeScript)" data-price="3900" data-icon="🔌" data-type="STARTER KIT">
+      <div class="product-thumb orange-grad">🔌</div>
+      <div class="product-body">
+        <div class="product-type">Starter Kit · TypeScript</div>
+        <h3>MCP Server Template (TypeScript)</h3>
+        <p>Production-ready MCP server scaffold with tool registration, OAuth 2.0 auth, rate limiting, audit logging, and stdio + HTTP transports.</p>
+        <div class="product-footer">
+          <div class="product-price">$39<span class="cents"></span></div>
+          <button class="btn-add-cart" onclick="addToCart(5, 'MCP Server Template (TypeScript)', 3900, '🔌', 'STARTER KIT')">+ Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" data-category="bundle" data-id="6" data-name="Complete Builder Bundle" data-price="9900" data-icon="📦" data-type="BUNDLE">
+      <div class="product-thumb steel-grad">📦</div>
+      <div class="product-body">
+        <div class="product-type">Bundle · Best Value</div>
+        <h3>Complete Builder Bundle</h3>
+        <p>Every guide, template pack, and starter kit in one purchase. Includes all future updates. Save $40 vs buying individually.</p>
+        <div class="product-footer">
+          <div class="product-price">$99<span class="cents"></span></div>
+          <button class="btn-add-cart" onclick="addToCart(6, 'Complete Builder Bundle', 9900, '📦', 'BUNDLE')">+ Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" data-category="pdf" data-id="7" data-name="Model Selection Cheat Sheet" data-price="0" data-icon="🧠" data-type="FREE PDF">
+      <div class="product-thumb blue-grad">🧠</div>
+      <div class="product-body">
+        <div class="product-type">Free PDF · Quick Reference</div>
+        <h3>Model Selection Cheat Sheet</h3>
+        <p>Side-by-side comparison of Claude, GPT-4o, Gemini, and Llama across cost, context, speed, and capability. Free to download.</p>
+        <div class="product-footer">
+          <div class="product-price free-tag">Free</div>
+          <button class="btn-add-cart" onclick="addToCart(7, 'Model Selection Cheat Sheet', 0, '🧠', 'FREE PDF')">↓ Download</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" data-category="template" data-id="8" data-name="LangChain Agent Boilerplate" data-price="1900" data-icon="⚡" data-type="TEMPLATE">
+      <div class="product-thumb teal-grad">⚡</div>
+      <div class="product-body">
+        <div class="product-type">Template · Python</div>
+        <h3>LangChain Agent Boilerplate</h3>
+        <p>Fully configured ReAct agent with web search, code execution, file I/O, and memory tools. Drop in your API keys and start building.</p>
+        <div class="product-footer">
+          <div class="product-price">$19<span class="cents"></span></div>
+          <button class="btn-add-cart" onclick="addToCart(8, 'LangChain Agent Boilerplate', 1900, '⚡', 'TEMPLATE')">+ Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" data-category="bundle" data-id="9" data-name="AI Ecosystem Guide PDF" data-price="1200" data-icon="📘" data-type="PDF GUIDE">
+      <div class="product-thumb purple-grad">📘</div>
+      <div class="product-body">
+        <div class="product-type">PDF Guide · 22 Pages</div>
+        <h3>AI Ecosystem Guide 2026</h3>
+        <p>The complete Ubiquity reference covering Agents, Models, Skills, RAG, MCP, and Automation. Accurate as of March 2026.</p>
+        <div class="product-footer">
+          <div class="product-price">$12<span class="cents"></span></div>
+          <button class="btn-add-cart" onclick="addToCart(9, 'AI Ecosystem Guide 2026', 1200, '📘', 'PDF GUIDE')">+ Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- STRIPE GUARANTEE -->
+  <div class="stripe-notice" style="margin: 0 80px 80px">
+    <div class="stripe-badge">Stripe</div>
+    <div>All purchases processed securely via <strong style="color:var(--text)">Stripe</strong>. Instant delivery to your inbox. Digital products — no refunds after download. Questions? Contact support.</div>
+  </div>
+
+  <footer>
+    <div>© 2026 Ubiquity Systems Digital. All rights reserved.</div>
+    <div style="display:flex;gap:24px">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+    </div>
+  </footer>
+</div>
+
+<!-- ── CART OVERLAY ── -->
+<div class="cart-overlay" id="cart-overlay" onclick="closeCart()"></div>
+
+<!-- ── CART DRAWER ── -->
+<div class="cart-drawer" id="cart-drawer">
+  <div class="cart-header">
+    <h3>🛒 Your Cart</h3>
+    <button class="cart-close" onclick="closeCart()">×</button>
+  </div>
+  <div class="cart-items" id="cart-items">
+    <div class="cart-empty">
+      <div class="empty-icon">🛒</div>
+      <p>Your cart is empty.<br>Add some products to get started.</p>
+    </div>
+  </div>
+  <div class="cart-footer" id="cart-footer" style="display:none">
+    <div class="cart-total">
+      <span class="cart-total-label">Total</span>
+      <span class="cart-total-value" id="cart-total-value">$0</span>
+    </div>
+    <button class="btn-checkout" id="btn-checkout" onclick="openStoreCheckout()">
+      🔒 Checkout with Stripe
+    </button>
+    <div class="stripe-powered" style="margin-top:12px">
+      Secured by <span style="color:#635bff;font-weight:600">Stripe</span> · Instant digital delivery
+    </div>
+  </div>
+</div>
+
+<!-- ── STORE PURCHASE MODAL ── -->
+<div class="modal-overlay" id="store-modal-overlay">
+  <div class="purchase-modal modal">
+    <button class="modal-close" onclick="closeStoreModal()">×</button>
+    <h3>Complete Purchase</h3>
+    <p>Fill in your details below to receive your download link instantly.</p>
+
+    <div class="order-summary" id="store-order-summary">
+      <div class="order-summary-title">Order Summary</div>
+      <!-- populated by JS -->
+    </div>
+
+    <div class="form-group">
+      <label>Full Name</label>
+      <input type="text" id="store-name" placeholder="Alex Johnson">
+    </div>
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" id="store-email" placeholder="alex@example.com">
+    </div>
+    <div class="form-group">
+      <label>Card Number</label>
+      <input type="text" id="store-card" placeholder="4242 4242 4242 4242" maxlength="19">
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-group">
+        <label>Expiry</label>
+        <input type="text" placeholder="MM / YY" maxlength="7">
+      </div>
+      <div class="form-group">
+        <label>CVC</label>
+        <input type="text" placeholder="123" maxlength="4">
+      </div>
+    </div>
+
+    <button class="btn-primary" id="store-pay-btn" style="width:100%;padding:15px;font-size:15px;border:none;cursor:pointer" onclick="handleStorePay()">
+      Pay & Download →
+    </button>
+    <div class="stripe-powered" style="margin-top:14px">
+      🔒 Secured by <span style="color:#635bff;font-weight:600">Stripe</span> · Download link sent to your email
+    </div>
+  </div>
+</div>
+
+
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <h3>Join Ubiquity Systems</h3>
+    <p>You're one step away from accessing all training, assets, and community resources.</p>
+    <div class="modal-plan-label" id="modal-plan-label">Plan: Pro Builder — $49/mo</div>
+
+    <div class="form-group">
+      <label>Full Name</label>
+      <input type="text" placeholder="Alex Johnson">
+    </div>
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" placeholder="alex@example.com">
+    </div>
+    <div class="form-group">
+      <label>Card Number</label>
+      <input type="text" placeholder="4242 4242 4242 4242" maxlength="19">
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-group">
+        <label>Expiry</label>
+        <input type="text" placeholder="MM / YY" maxlength="7">
+      </div>
+      <div class="form-group">
+        <label>CVC</label>
+        <input type="text" placeholder="123" maxlength="4">
+      </div>
+    </div>
+
+    <button class="btn-primary" style="width:100%;padding:15px;font-size:15px;border:none;cursor:pointer" onclick="handleCheckout()">
+      Subscribe Now →
+    </button>
+
+    <div class="stripe-powered">
+      🔒 Secured by <span>Stripe</span> · Cancel anytime from your billing portal
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── STORE & CART ──
+  let cart = {};
+
+  function addToCart(id, name, price, icon, type) {
+    const btn = event.target;
+    if (cart[id]) {
+      // already in cart — open drawer
+      openCart();
+      return;
+    }
+    cart[id] = { id, name, price, icon, type };
+    btn.textContent = '✓ In Cart';
+    btn.classList.add('in-cart');
+    btn.onclick = () => openCart();
+    renderCart();
+    updateCartBadge();
+    openCart();
+  }
+
+  function removeFromCart(id) {
+    delete cart[id];
+    // reset button
+    const btn = document.querySelector(`[data-id="${id}"] .btn-add-cart`);
+    if (btn) {
+      const prod = document.querySelector(`[data-id="${id}"]`);
+      const isFree = prod && prod.dataset.price === '0';
+      btn.textContent = isFree ? '↓ Download' : '+ Add to Cart';
+      btn.classList.remove('in-cart');
+      const origId = parseInt(id);
+      const p = parseFloat(prod.dataset.price);
+      const n = prod.dataset.name;
+      const ic = prod.dataset.icon;
+      const ty = prod.dataset.type;
+      btn.onclick = () => addToCart(origId, n, p, ic, ty);
+    }
+    renderCart();
+    updateCartBadge();
+    if (Object.keys(cart).length === 0) closeCart();
+  }
+
+  function renderCart() {
+    const container = document.getElementById('cart-items');
+    const footer = document.getElementById('cart-footer');
+    const items = Object.values(cart);
+
+    if (items.length === 0) {
+      container.innerHTML = '<div class="cart-empty"><div class="empty-icon">🛒</div><p>Your cart is empty.<br>Add some products to get started.</p></div>';
+      footer.style.display = 'none';
+      return;
+    }
+
+    footer.style.display = 'block';
+    let total = 0;
+    container.innerHTML = items.map(item => {
+      total += item.price;
+      const priceStr = item.price === 0 ? 'Free' : '$' + (item.price / 100).toFixed(0);
+      return `<div class="cart-item">
+        <div class="cart-item-icon" style="background:var(--bg3);border:1px solid var(--border)">${item.icon}</div>
+        <div class="cart-item-info">
+          <div class="cart-item-name">${item.name}</div>
+          <div class="cart-item-type">${item.type}</div>
+          <div class="cart-item-price">${priceStr}</div>
+        </div>
+        <button class="cart-item-remove" onclick="removeFromCart(${item.id})">×</button>
+      </div>`;
+    }).join('');
+
+    const totalStr = total === 0 ? 'Free' : '$' + (total / 100).toFixed(0);
+    document.getElementById('cart-total-value').textContent = totalStr;
+    document.getElementById('btn-checkout').disabled = items.length === 0;
+  }
+
+  function updateCartBadge() {
+    const count = Object.keys(cart).length;
+    const badge = document.getElementById('cart-badge');
+    if (count > 0) {
+      badge.style.display = 'block';
+      badge.textContent = count;
+    } else {
+      badge.style.display = 'none';
+    }
+  }
+
+  function openCart() {
+    document.getElementById('cart-drawer').classList.add('open');
+    document.getElementById('cart-overlay').classList.add('open');
+  }
+
+  function closeCart() {
+    document.getElementById('cart-drawer').classList.remove('open');
+    document.getElementById('cart-overlay').classList.remove('open');
+  }
+
+  function filterStore(category, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.product-card').forEach(card => {
+      card.style.display = (category === 'all' || card.dataset.category === category) ? 'flex' : 'none';
+    });
+  }
+
+  function openStoreCheckout() {
+    closeCart();
+    const items = Object.values(cart);
+    let total = 0;
+    const summaryEl = document.getElementById('store-order-summary');
+    let html = '<div class="order-summary-title">Order Summary</div>';
+    items.forEach(item => {
+      total += item.price;
+      const priceStr = item.price === 0 ? 'Free' : '$' + (item.price / 100).toFixed(0);
+      html += `<div class="order-line"><span>${item.icon} ${item.name}</span><span>${priceStr}</span></div>`;
+    });
+    const totalStr = total === 0 ? 'Free' : '$' + (total / 100).toFixed(0);
+    html += `<div class="order-line"><span>Total</span><span>${totalStr}</span></div>`;
+    summaryEl.innerHTML = html;
+    document.getElementById('store-modal-overlay').classList.add('open');
+  }
+
+  function closeStoreModal() {
+    document.getElementById('store-modal-overlay').classList.remove('open');
+  }
+
+  function handleStorePay() {
+    // ── STRIPE INTEGRATION POINT ──
+    // 1. Load Stripe.js: const stripe = Stripe('pk_live_YOUR_KEY');
+    // 2. POST cart items to your backend /api/create-checkout-session
+    // 3. Redirect: stripe.redirectToCheckout({ sessionId: data.id })
+    // For one-time payments use mode: 'payment', line_items from cart
+    const btn = document.getElementById('store-pay-btn');
+    btn.textContent = '⏳ Processing...';
+    btn.disabled = true;
+    setTimeout(() => {
+      closeStoreModal();
+      btn.textContent = 'Pay & Download →';
+      btn.disabled = false;
+      cart = {};
+      renderCart();
+      updateCartBadge();
+      document.querySelectorAll('.btn-add-cart.in-cart').forEach(b => {
+        b.textContent = '+ Add to Cart';
+        b.classList.remove('in-cart');
+      });
+      alert('✅ Stripe Integration Point\n\nConnect: Stripe("pk_live_...") → POST /api/checkout → redirectToCheckout({ sessionId })\n\nIn production, your customer receives a download link via email after payment.');
+    }, 1600);
+  }
+
+  document.getElementById('store-modal-overlay').addEventListener('click', function(e) {
+    if (e.target === this) closeStoreModal();
+  });
+
+  // Card formatting for store modal
+  document.getElementById('store-card').addEventListener('input', function() {
+    let val = this.value.replace(/\D/g, '').substring(0, 16);
+    this.value = val.replace(/(.{4})/g, '$1 ').trim();
+  });
+
+
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    const navEl = document.getElementById('nav-' + id);
+    if (navEl) navEl.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function openModal(plan, price) {
+    document.getElementById('modal-plan-label').textContent = 'Plan: ' + plan + ' — ' + price;
+    document.getElementById('modal-overlay').classList.add('open');
+  }
+
+  function closeModal() {
+    document.getElementById('modal-overlay').classList.remove('open');
+  }
+
+  function handleCheckout() {
+    // In production: replace with Stripe.js / Payment Element integration
+    // Example: stripe.redirectToCheckout({ sessionId: ... })
+    const btn = event.target;
+    btn.textContent = '⏳ Processing...';
+    btn.disabled = true;
+    setTimeout(() => {
+      document.getElementById('modal-overlay').classList.remove('open');
+      btn.textContent = 'Subscribe Now →';
+      btn.disabled = false;
+      alert('✅ Integration Point: Connect your Stripe publishable key and backend checkout session endpoint here.');
+    }, 1500);
+  }
+
+  // Close modal on overlay click
+  document.getElementById('modal-overlay').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+
+  // Card number formatting
+  document.querySelectorAll('input[placeholder="4242 4242 4242 4242"]').forEach(input => {
+    input.addEventListener('input', function() {
+      let val = this.value.replace(/\D/g, '').substring(0, 16);
+      this.value = val.replace(/(.{4})/g, '$1 ').trim();
+    });
+  });
+</script>
+</body>
+</html>

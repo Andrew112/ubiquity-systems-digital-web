@@ -2045,28 +2045,56 @@
     document.getElementById('store-modal-overlay').classList.remove('open');
   }
 
-  function handleStorePay() {
-    // ── STRIPE INTEGRATION POINT ──
-    // 1. Load Stripe.js: const stripe = Stripe('pk_live_YOUR_KEY');
-    // 2. POST cart items to your backend /api/create-checkout-session
-    // 3. Redirect: stripe.redirectToCheckout({ sessionId: data.id })
-    // For one-time payments use mode: 'payment', line_items from cart
+  async function handleStorePay() {
     const btn = document.getElementById('store-pay-btn');
-    btn.textContent = '⏳ Processing...';
+    const name = document.getElementById('store-name').value.trim();
+    const email = document.getElementById('store-email').value.trim();
+
+    if (!name || !email) {
+      alert('Please enter your name and email before continuing.');
+      return;
+    }
+
+    btn.textContent = '⏳ Redirecting to Stripe...';
     btn.disabled = true;
-    setTimeout(() => {
-      closeStoreModal();
+
+    try {
+      const items = Object.values(cart).filter(i => i.price > 0);
+
+      if (items.length === 0) {
+        // free items only — skip Stripe
+        closeStoreModal();
+        alert('✅ Your free download link has been sent to ' + email);
+        cart = {};
+        renderCart();
+        updateCartBadge();
+        return;
+      }
+
+      const res = await fetch('/.netlify/functions/create-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items }),
+      });
+
+      const data = await res.json();
+
+      if (data.error) {
+        alert('Error: ' + data.error);
+        btn.textContent = 'Pay & Download →';
+        btn.disabled = false;
+        return;
+      }
+
+      // Redirect to Stripe hosted checkout page
+      const stripe = Stripe('pk_live_YOUR_PUBLISHABLE_KEY'); // replace with your key
+      await stripe.redirectToCheckout({ sessionId: data.id });
+
+    } catch (err) {
+      alert('Something went wrong. Please try again.');
       btn.textContent = 'Pay & Download →';
       btn.disabled = false;
-      cart = {};
-      renderCart();
-      updateCartBadge();
-      document.querySelectorAll('.btn-add-cart.in-cart').forEach(b => {
-        b.textContent = '+ Add to Cart';
-        b.classList.remove('in-cart');
-      });
-      alert('✅ Stripe Integration Point\n\nConnect: Stripe("pk_live_...") → POST /api/checkout → redirectToCheckout({ sessionId })\n\nIn production, your customer receives a download link via email after payment.');
-    }, 1600);
+    }
   }
 
   document.getElementById('store-modal-overlay').addEventListener('click', function(e) {
@@ -2080,6 +2108,7 @@
   });
 
 
+  function showPage(id) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById('page-' + id).classList.add('active');
     document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));

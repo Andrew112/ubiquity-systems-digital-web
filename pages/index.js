@@ -686,7 +686,7 @@ export default function Home() {
           btn.disabled = false;
           return;
         }
-        const stripe = window.Stripe('pk_live_YOUR_PUBLISHABLE_KEY');
+        const stripe = window.Stripe('pk_test_51TFfkeAjDwLEnX9WSkWWNaZPu5w66nXW9aET9fnl2uzHjsEdOpOaL1Wo0ba75GMoYhKY5WirR3cFfDW2DYNVmejn004jzODguU');
         await stripe.redirectToCheckout({ sessionId: data.id });
       } catch (err) {
         alert('Something went wrong. Please try again.');

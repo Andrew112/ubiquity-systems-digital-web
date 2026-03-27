@@ -2087,7 +2087,7 @@
       }
 
       // Redirect to Stripe hosted checkout page
-      const stripe = Stripe(window.__STRIPE_KEY__);
+      const stripe = Stripe('pk_test_51TFfkeAjDwLEnX9WSkWWNaZPu5w66nXW9aET9fnl2uzHjsEdOpOaL1Wo0ba75GMoYhKY5WirR3cFfDW2DYNVmejn004jzODguU');
       await stripe.redirectToCheckout({ sessionId: data.id });
 
     } catch (err) {

@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "echo \"Build complete\"",
+    "dev": "next dev",
+    "build": "next build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -11,6 +12,12 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "stripe": "^21.0.1"
+    "stripe": "^21.0.1",
+    "next": "14.0.0",
+    "react": "18.0.0",
+    "react-dom": "18.0.0"
+  },
+  "devDependencies": {
+    "@netlify/plugin-nextjs": "^5.0.0"
   }
 }

@@ -12,12 +12,12 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "stripe": "^21.0.1",
     "next": "14.0.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "stripe": "^21.0.1"
   },
   "devDependencies": {
-    "@netlify/plugin-nextjs": "^5.0.0"
+    "@netlify/plugin-nextjs": "^5.15.9"
   }
 }

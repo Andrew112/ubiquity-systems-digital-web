@@ -21,6 +21,9 @@ export default async function handler(req, res) {
       quantity: 1,
     }));
 
+    const baseUrl = process.env.URL || 'http://localhost:3000';
+
+
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       line_items,
